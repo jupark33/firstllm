@@ -1,3 +1,4 @@
+import os
 import time
 from langchain_community.document_loaders import TextLoader
 from langchain.text_splitter import CharacterTextSplitter
@@ -8,6 +9,8 @@ import faiss
 import utils
 
 print(f'faiss VERSION : {faiss.__version__}')
+
+INDEX_PATH = "faiss_index_sam01"
 
 ###########################
 # 시작 시간 기록
@@ -56,13 +59,23 @@ print(f"3 Ollama Embeddings 초기화 (경과 시간: {elapsed:.4f}초)")
 
 ###########################
 # 4. 벡터 변환 및 벡터스토어 생성
-# 시작 시간 기록
-start_time = time.time()
-vectorstore = FAISS.from_documents(docs, embeddings)
-# 경과 시간 계산
-elapsed = time.time() - start_time
-print(f"4 벡터 변환 및 벡터스토어 생성 (경과 시간: {elapsed:.4f}초)")
+# 최초 실행 여부 판단
+if os.path.exists(INDEX_PATH):
+    # 저장된 인덱스가 있으면 불러오기
+    start_time = time.time()
+    vectorstore = FAISS.load_local(INDEX_PATH, embeddings, allow_dangerous_deserialization=True)
+    elapsed = time.time() - start_time
+    print(f"저장된 FAISS 인덱스 불러오기 완료 (경과 시간: {elapsed:.4f}초)")
+else:
+    # 없으면 새로 생성 후 저장
+    start_time = time.time()
+    vectorstore = FAISS.from_documents(docs, embeddings)
+    elapsed = time.time() - start_time
+    print(f"FAISS 인덱스 새로 생성 완료 (경과 시간: {elapsed:.4f}초)")
+    vectorstore.save_local(INDEX_PATH)
+    print(f"인덱스를 '{INDEX_PATH}' 폴더에 저장했습니다.")
 print(f'현재 시간 : {utils.timestamp()}')
+
 
 ######################
 # 5. 문서 검색
