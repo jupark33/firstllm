@@ -5,18 +5,20 @@ from langchain.text_splitter import CharacterTextSplitter
 from langchain_ollama import OllamaEmbeddings
 from langchain_community.vectorstores import FAISS
 import faiss
+from langchain_ollama import OllamaEmbeddings, ChatOllama
+from langchain.chains import RetrievalQA
 
 import utils
 
 print(f'faiss VERSION : {faiss.__version__}')
 
-INDEX_PATH = "faiss_index_sam01"
+INDEX_PATH = "faiss_index_secret"
 
 ###########################
 # 시작 시간 기록
 start_time = time.time()
 # 텍스트 파일 로드
-loader = TextLoader("sam01.txt", encoding="utf-8")
+loader = TextLoader("secret_utf8.txt", encoding="utf-8")
 # 문서 객체 리스트 반환
 documents = loader.load()
 # 경과 시간 계산
@@ -76,20 +78,23 @@ else:
     print(f"인덱스를 '{INDEX_PATH}' 폴더에 저장했습니다.")
 print(f'현재 시간 : {utils.timestamp()}')
 
+###########################
+# 5. ChatOllama + RetrievalQA 연결
+llm = ChatOllama(model="llama2:7b")  # 원하는 Ollama 모델 이름 지정 (예: "llama2", "mistral", "gemma" 등)
+qa_chain = RetrievalQA.from_chain_type(
+    llm=llm,
+    retriever=vectorstore.as_retriever(),
+    chain_type="stuff"
+)
 
-######################
-# 5. 문서 검색
+###########################
+# 6. 질문 실행
 start_time = time.time()
-query = "유비가 사는 곳은?"
-documents = vectorstore.similarity_search(query)
-for document in documents:
-    print(f'질문 : {query}')
-    print(f'결과')
-    print(document.page_content)
-# 경과 시간 계산
+query = "헤이스케의 직업은?  Please answer in Korean"
+answer = qa_chain.invoke(query)
 elapsed = time.time() - start_time
-print(f"5 문서 검색 (경과 시간: {elapsed:.4f}초)")
-print(f'현재 시간 : {utils.timestamp()}')
 
-'''
-'''
+print(f'질문 : {query}')
+print(f'답변 : {answer}')
+print(f"6 ChatOllama QA 실행 (경과 시간: {elapsed:.4f}초)")
+print(f'현재 시간 : {utils.timestamp()}')
