@@ -9,12 +9,6 @@ import utils
 
 print(f'faiss VERSION : {faiss.__version__}')
 
-# Ollama 설치
-# https://ollama.com/download/windows
-# command 창에서 실행
-# ollama pull nomic-embed-text
-# pip install faiss-cpu
-
 ###########################
 # 시작 시간 기록
 start_time = time.time()
@@ -70,17 +64,19 @@ elapsed = time.time() - start_time
 print(f"4 벡터 변환 및 벡터스토어 생성 (경과 시간: {elapsed:.4f}초)")
 print(f'현재 시간 : {utils.timestamp()}')
 
-
 ######################
-'''   260125 12:08 
-faiss VERSION : 1.13.0
-1 문서 객체 리스트 반환 (경과 시간: 0.0030초)
-2 문서 분할 (경과 시간: 0.0070초)
-분할된 문서 갯수 : 535
-3 Ollama Embeddings 초기화 (경과 시간: 0.0190초)
-4 벡터 변환 및 벡터스토어 생성 (경과 시간: 87.4074초)
-'''
-######################
+# 5. 문서 검색
+start_time = time.time()
+query = "유비가 사는 곳은?"
+documents = vectorstore.similarity_search(query)
+for document in documents:
+    print(f'질문 : {query}')
+    print(f'결과')
+    print(document.page_content)
+# 경과 시간 계산
+elapsed = time.time() - start_time
+print(f"5 문서 검색 (경과 시간: {elapsed:.4f}초)")
+print(f'현재 시간 : {utils.timestamp()}')
 
 '''
 '''
