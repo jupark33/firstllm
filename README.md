@@ -23,3 +23,17 @@ faiss VERSION : 1.13.0
 5 문서 검색 (경과 시간: 0.0866초)
 현재 시간 : 2026-01-25 17:40:13
 ```
+
+* 추가 hugging face hub
+```console
+huggingface-cli download BM-K/KoSimCSE-roberta-multitask --local-dir ./models/KoSimCSE\ 
+pip install -U langchain langchain-core langchain-community langchain-huggingface
+pip install -U sentence-transformers
+
+```
+* 실행결과
+```console
+FAISS 인덱스 새로 생성 완료 (경과 시간: 208.5387초)
+인덱스를 'faiss_index_secret' 폴더에 저장했습니다.
+현재 시간 : 2026-01-26 17:53:27
+```
