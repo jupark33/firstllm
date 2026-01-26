@@ -5,17 +5,11 @@ from langchain_text_splitters import CharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 import faiss
 from langchain_ollama import OllamaEmbeddings, ChatOllama
-# from langchain.chains import RetrievalQA
 from langchain_huggingface import HuggingFaceEmbeddings
 
+from langchain_classic.chains import RetrievalQA
 
 import utils
-
-'''
-
-
-
-'''
 
 print(f'faiss VERSION : {faiss.__version__}')
 
@@ -88,24 +82,24 @@ else:
     vectorstore.save_local(INDEX_PATH)
     print(f"인덱스를 '{INDEX_PATH}' 폴더에 저장했습니다.")
 print(f'현재 시간 : {utils.timestamp()}')
-#
-# ###########################
-# # 5. ChatOllama + RetrievalQA 연결
-# llm = ChatOllama(model="mistral")  # 원하는 Ollama 모델 이름 지정 (예: "llama2", "mistral", "gemma" 등)
-# qa_chain = RetrievalQA.from_chain_type(
-#     llm=llm,
-#     retriever=vectorstore.as_retriever(),
-#     chain_type="stuff"
-# )
 
-# ###########################
-# # 6. 질문 실행
-# start_time = time.time()
-# query = "헤이스케의 직업은?  Please answer in Korean"
-# answer = qa_chain.invoke(query)
-# elapsed = time.time() - start_time
-#
-# print(f'질문 : {query}')
-# print(f'답변 : {answer}')
-# print(f"6 ChatOllama QA 실행 (경과 시간: {elapsed:.4f}초)")
-# print(f'현재 시간 : {utils.timestamp()}')
+###########################
+# 5. ChatOllama + RetrievalQA 연결
+llm = ChatOllama(model="mistral")  # 원하는 Ollama 모델 이름 지정 (예: "llama2", "mistral", "gemma" 등)
+qa_chain = RetrievalQA.from_chain_type(
+    llm=llm,
+    retriever=vectorstore.as_retriever(),
+    chain_type="stuff"
+)
+
+###########################
+# 6. 질문 실행
+start_time = time.time()
+query = "헤이스케의 직업은 무엇인가?  Please answer in Korean"
+answer = qa_chain.invoke(query)
+elapsed = time.time() - start_time
+
+print(f'질문 : {query}')
+print(f'답변 : {answer}')
+print(f"6 ChatOllama QA 실행 (경과 시간: {elapsed:.4f}초)")
+print(f'현재 시간 : {utils.timestamp()}')
