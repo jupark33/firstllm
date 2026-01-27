@@ -103,3 +103,22 @@ print(f'질문 : {query}')
 print(f'답변 : {answer}')
 print(f"6 ChatOllama QA 실행 (경과 시간: {elapsed:.4f}초)")
 print(f'현재 시간 : {utils.timestamp()}')
+
+
+###########################
+# 7. CLI 대화 루프
+def chat_cli():
+    print("RAG 챗봇 시작! 질문을 입력하세요. (종료하려면 'exit' 입력)")
+    while True:
+        question = input("질문 > ").strip()
+        if question.lower() in ["exit", "quit", "종료"]:
+            print("챗봇을 종료합니다.")
+            break
+        start_t = time.time()
+        answer_q = qa_chain.invoke(question)
+        elapsed_t = time.time() - start_t
+        print(f"ChatOllama QA 실행 (경과 시간: {elapsed_t:.4f}초)")
+        print("답변 >", answer_q)
+
+
+chat_cli()
