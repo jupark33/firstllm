@@ -87,3 +87,22 @@ ChatOllama QA 실행 (경과 시간: 42.7255초)
 답변 > {'query': '레이의 직업은 무엇인가?', 'result': ' 문헌에서 보아하면, 레이는 에스코트 업태를 하고 있었습니다. 따라서 그녀의 직업은 "에스코트"라고 할 수 있습니다.'}
 질문 > 
 ```
+
+* 책 3권 RAG
+```console
+E:\project\intellij\python\llm\firstllm\venv\Scripts\python.exe E:\project\intellij\python\llm\firstllm\main.py 
+faiss VERSION : 1.13.2, 현재 시간 : 2026-01-30 16:38:46
+총 3권의 책을 로드합니다.
+1 문서 객체 리스트 반환 (경과 시간: 0.0587초)
+2 문서 분할 (경과 시간: 0.1150초)
+분할된 문서 갯수 : 1284
+3 HuggingFace Embeddings 초기화 (경과 시간: 10.5540초)
+FAISS 인덱스 새로 생성 완료 (경과 시간: 748.1036초)
+4 인덱스를 'faiss_index_books3' 폴더에 저장했습니다.
+현재 시간 : 2026-01-30 16:51:25
+RAG 챗봇 시작! 질문을 입력하세요. (종료하려면 'exit' 입력)
+질문 > 아이비가 사는 곳과 직업은? 
+ChatOllama QA 실행 (경과 시간: 65.2530초)
+답변 > {'query': '아이비가 사는 곳과 직업은? Please answer in Korean', 'result': ' 아이비는 유산으로 받아들인 대저택에서 살고 있으며, 런싱 회사에서 근무하고 있다. 그러나 직업은 비서로 발탁된 후 한달 반 만에 해고되었고, 이전에는 타이프실에서 2년 근무했다.'}
+질문 > 
+```

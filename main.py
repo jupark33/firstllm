@@ -13,7 +13,7 @@ import utils
 
 print(f'faiss VERSION : {faiss.__version__}, 현재 시간 : {utils.timestamp()}')
 
-INDEX_PATH_BOOKS2 = "faiss_index_books2"
+INDEX_PATH_BOOKS3 = "faiss_index_books3"
 
 ###########################
 # 시작 시간 기록
@@ -21,7 +21,7 @@ start_time = time.time()
 
 # 📚 100권 소설책 로드 (예: books 폴더 안에 book1.txt ~ book100.txt)
 documents = []
-books_dir = "books2"   # 소설책 텍스트 파일들이 들어있는 폴더
+books_dir = "books3"   # 소설책 텍스트 파일들이 들어있는 폴더
 book_files = [f for f in os.listdir(books_dir) if f.endswith(".txt")]
 
 print(f"총 {len(book_files)}권의 책을 로드합니다.")
@@ -37,7 +37,7 @@ print(f"1 문서 객체 리스트 반환 (경과 시간: {elapsed:.4f}초)")
 # 1 문서 분할
 start_time = time.time()
 text_splitter = CharacterTextSplitter(
-    separator="\n",
+    separator=" ",
     chunk_size=500,
     chunk_overlap=50
 )
@@ -58,9 +58,9 @@ print(f"3 HuggingFace Embeddings 초기화 (경과 시간: {elapsed:.4f}초)")
 
 ###########################
 # 4. 벡터 변환 및 벡터스토어 생성
-if os.path.exists(INDEX_PATH_BOOKS2):
+if os.path.exists(INDEX_PATH_BOOKS3):
     start_time = time.time()
-    vectorstore = FAISS.load_local(INDEX_PATH_BOOKS2, embeddings, allow_dangerous_deserialization=True)
+    vectorstore = FAISS.load_local(INDEX_PATH_BOOKS3, embeddings, allow_dangerous_deserialization=True)
     elapsed = time.time() - start_time
     print(f"4 저장된 FAISS 인덱스 불러오기 완료 (경과 시간: {elapsed:.4f}초)")
 else:
@@ -68,8 +68,8 @@ else:
     vectorstore = FAISS.from_documents(docs, embeddings)
     elapsed = time.time() - start_time
     print(f"FAISS 인덱스 새로 생성 완료 (경과 시간: {elapsed:.4f}초)")
-    vectorstore.save_local(INDEX_PATH_BOOKS2)
-    print(f"4 인덱스를 '{INDEX_PATH_BOOKS2}' 폴더에 저장했습니다.")
+    vectorstore.save_local(INDEX_PATH_BOOKS3)
+    print(f"4 인덱스를 '{INDEX_PATH_BOOKS3}' 폴더에 저장했습니다.")
 print(f'현재 시간 : {utils.timestamp()}')
 
 ###########################
@@ -104,7 +104,7 @@ def chat_cli():
             print("챗봇을 종료합니다.")
             break
         start_t = time.time()
-        answer_q = qa_chain.invoke(question)
+        answer_q = qa_chain.invoke(question + " Please answer in Korean")
         elapsed_t = time.time() - start_t
         print(f"ChatOllama QA 실행 (경과 시간: {elapsed_t:.4f}초)")
         print("답변 >", answer_q)
