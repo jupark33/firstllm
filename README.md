@@ -65,3 +65,25 @@ ChatOllama QA 실행 (경과 시간: 64.3313초)
 답변 > {'query': '1장 요약 해줘요.', 'result': ' 이 설정에서는 한 차원의 차이가 있는 두 사람인 헤이스케와 나오코가 있습니다. 무거운 심정으로 자신과 전화를 걸어온 세이코(나오코의 친구)에게 헤이스케는 교통 지도를 보고 세이코의 집을 찾아갔습니다. 그런 후일담은 나와지지 않았으므로 1장의 주제는 헤이스케와 나오코가 어떻게 만난 것인가와 두 사람간의 관계에 대한 시작입니다.'}
 질문 > 
 ```
+
+* 책 2권 RAG
+```console
+E:\project\intellij\python\llm\firstllm\venv\Scripts\python.exe E:\project\intellij\python\llm\firstllm\main.py 
+faiss VERSION : 1.13.2, 현재 시간 : 2026-01-30 15:45:36
+총 2권의 책을 로드합니다.
+1 문서 객체 리스트 반환 (경과 시간: 0.0030초)
+2 문서 분할 (경과 시간: 0.0108초)
+분할된 문서 갯수 : 662
+3 HuggingFace Embeddings 초기화 (경과 시간: 10.3228초)
+FAISS 인덱스 새로 생성 완료 (경과 시간: 338.9731초)
+4 인덱스를 'faiss_index_books2' 폴더에 저장했습니다.
+현재 시간 : 2026-01-30 15:51:26
+RAG 챗봇 시작! 질문을 입력하세요. (종료하려면 'exit' 입력)
+질문 > 책 들의 제목은? 
+ChatOllama QA 실행 (경과 시간: 70.5769초)
+답변 > {'query': '책 들의 제목은?', 'result': ' The context provided doesn\'t directly answer the question about the titles of the books on the desk. However, we can infer that they are related to economics based on the following sentences:\n\n1. "... 서적들이 잡다하게 쌓여 있었다." (There were stacks of various books.)\n2. "저일스는 그중에서 몇 권인가를 집어들고 제목을 읽어보았다." (She picked up a few books and read their titles.)\n3. "\'경제, 이론과 실천\', \'상급자를 위한 경제학\'" (Among the books, there were titles like "Economics, Theory and Practice" and "Advanced Economics")\n\nThese titles suggest that the books are related to economics.'}
+질문 > 레이의 직업은 무엇인가?
+ChatOllama QA 실행 (경과 시간: 42.7255초)
+답변 > {'query': '레이의 직업은 무엇인가?', 'result': ' 문헌에서 보아하면, 레이는 에스코트 업태를 하고 있었습니다. 따라서 그녀의 직업은 "에스코트"라고 할 수 있습니다.'}
+질문 > 
+```
